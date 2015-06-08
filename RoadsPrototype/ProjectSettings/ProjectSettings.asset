@@ -134,7 +134,11 @@ PlayerSettings:
     banner: {fileID: 0}
   androidGamepadSupportLevel: 0
   resolutionDialogBanner: {fileID: 0}
-  m_BuildTargetIcons: []
+  m_BuildTargetIcons:
+  - m_BuildTarget: 
+    m_Icons:
+    - m_Icon: {fileID: 0}
+      m_Size: 128
   m_BuildTargetBatching: []
   webPlayerTemplate: APPLICATION:Default
   m_TemplateCustomTags: {}
@@ -250,7 +254,24 @@ PlayerSettings:
   psp2InfoBarColor: 0
   psmSplashimage: {fileID: 0}
   spritePackerPolicy: 
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    1: DEBUG
+    2: DEBUG
+    4: DEBUG
+    5: DEBUG
+    6: DEBUG
+    7: DEBUG
+    9: DEBUG
+    13: DEBUG
+    14: DEBUG
+    15: DEBUG
+    16: DEBUG
+    17: DEBUG
+    18: DEBUG
+    19: DEBUG
+    20: DEBUG
+    21: DEBUG
+    22: DEBUG
   metroPackageName: RoadsPrototype
   metroPackageLogo: 
   metroPackageLogo140: 

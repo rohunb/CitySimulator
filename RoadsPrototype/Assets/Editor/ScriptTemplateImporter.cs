@@ -18,11 +18,9 @@ public class ScriptTemplateImporter : UnityEditor.AssetModificationProcessor
     {
         //not a script
         if (!path.Contains(".cs")) return;
+
         path = path.Replace(".meta", "");
-        int index = path.LastIndexOf(".");
-        string ext = path.Substring(index);
-        if (ext != ".cs") return;
-        index = Application.dataPath.LastIndexOf("Assets");
+        int index = Application.dataPath.LastIndexOf("Assets");
         path = Application.dataPath.Substring(0, index) + path;
         string file = File.ReadAllText(path);
         file = file.Replace("#CREATIONDATE#", DateTime.Now.ToString("MMMM dd, yyyy"));
