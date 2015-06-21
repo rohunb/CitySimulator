@@ -9,35 +9,35 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace DataStructures
+namespace Pathfinding
 {
     /// <summary>
     /// Implemented as a sortedDictionary of queues. If multiple items have the same priority they are queued under the same element.
     /// </summary>
-    /// <typeparam name="PriorityType"></typeparam>
-    /// <typeparam name="ValueType"></typeparam>
-    public class PriorityQueue<PriorityType, ValueType> : IEnumerable
+    /// <typeparam name="P"></typeparam>
+    /// <typeparam name="T"></typeparam>
+    public class PriorityQueue<P, T> : IEnumerable
     {
-        private SortedDictionary<PriorityType, Queue<ValueType>> dictionary = new SortedDictionary<PriorityType, Queue<ValueType>>();
+        private SortedDictionary<P, Queue<T>> dictionary = new SortedDictionary<P, Queue<T>>();
 
         /// <summary>
         /// Adds the value with the provided priority. If other values are present with the same priority, the provided value is enqueue behind the older values.
         /// </summary>
-        public void Enqueue(PriorityType priority, ValueType value)
+        public void Enqueue(P priority, T value)
         {
-            Queue<ValueType> queue;
+            Queue<T> queue;
             //check if the priority already exists in the dictionary
             if(!dictionary.TryGetValue(priority, out queue))
             {
                 //create a new queue if nothing exists with the same priority
-                queue = new Queue<ValueType>();
+                queue = new Queue<T>();
                 dictionary.Add(priority, queue);
             }
             //add the value to the queue
             queue.Enqueue(value);
         }
 
-        public ValueType Dequeue()
+        public T Dequeue()
         {
             //first queue in the dictionary
             var firstPair = dictionary.First();
@@ -54,6 +54,11 @@ namespace DataStructures
         public bool IsEmpty
         {
             get { return !dictionary.Any(); }
+        }
+
+        public void Clear()
+        {
+            dictionary.Clear();
         }
 
         //IEnumerator implementation
