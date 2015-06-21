@@ -13,16 +13,16 @@ namespace Pathfinding
     public class Graph<T>
     {
         //Fields
-        private GraphNodeList<T> nodeList;
-
-        //Props
-        
+        private GraphNodeList<T> nodeList = new GraphNodeList<T>();
+        public GraphNodeList<T> NodeList
+        {
+            get { return nodeList; }
+        }
 
         //Ctor
         public Graph()
-        {
-            this.nodeList = new GraphNodeList<T>();
-        }
+        {}
+
         public Graph(GraphNodeList<T> nodeList)
         {
             this.nodeList = nodeList;
@@ -41,7 +41,7 @@ namespace Pathfinding
 
         public void AddNode(GraphNode<T> node)
         {
-            //Assert.IsFalse(nodeList.ContainsNodeWithID(node.ID));
+            Assert.IsFalse(nodeList.ContainsNodeWithID(node.ID));
             if (!nodeList.ContainsNode(node))
             {
                 nodeList.Add(node);

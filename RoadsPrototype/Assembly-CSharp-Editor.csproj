@@ -46,6 +46,7 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Editor\RoadGraphEditor.cs" />
      <Compile Include="Assets\Editor\ScriptTemplateImporter.cs" />
      <Compile Include="Assets\Editor\SetDefines.cs" />
  <Reference Include="UnityEngine.UI">

@@ -17,6 +17,10 @@ namespace RoadsPrototype
     {
         //Private Members
         private Graph<RoadNode> roadGraph = new Graph<RoadNode>();
+        public Graph<RoadNode> RoadGraph
+        {
+            get { return roadGraph; }
+        }
 
         //Unity Callbacks
         private void Awake()
@@ -66,8 +70,25 @@ namespace RoadsPrototype
             {
                 Debug.Log(node);
             }
-
         }
+
+        //GUI interface
+        public void AddConnection(GraphNode<RoadNode> fromNode, GraphNode<RoadNode> toNode, float cost, bool directed)
+        {
+            if(directed)
+            {
+                roadGraph.AddAndConnectDirected(fromNode, toNode, cost);
+            }
+            else
+            {
+                roadGraph.AddAndConnect(fromNode, toNode, cost);
+            }
+        }
+        public void Clear()
+        {
+            roadGraph.Clear();
+        }
+
     }
 }
 
