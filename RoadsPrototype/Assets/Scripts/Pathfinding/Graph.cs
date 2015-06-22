@@ -4,7 +4,6 @@
   Created by Rohun Banerji on June 06, 2015.
   Copyright (c) 2015 Rohun Banerji. All rights reserved.
 */
-
 using UnityEngine.Assertions;
 using System.Collections.Generic;
 
@@ -41,7 +40,7 @@ namespace Pathfinding
 
         public void AddNode(GraphNode<T> node)
         {
-            Assert.IsFalse(nodeList.ContainsNodeWithID(node.ID));
+            //Assert.IsFalse(nodeList.ContainsNodeWithID(node.ID));
             if (!nodeList.ContainsNode(node))
             {
                 nodeList.Add(node);
@@ -51,9 +50,6 @@ namespace Pathfinding
         public void AddAndConnectDirected(GraphNode<T> fromNode, GraphNode<T> toNode, float cost)
         {
             Assert.IsFalse(fromNode == toNode);
-            //Assert.IsFalse(nodeList.ContainsNode(fromNode));
-            //Assert.IsFalse(nodeList.ContainsNode(toNode));
-
             AddNode(fromNode);
             AddNode(toNode);
             fromNode.AddNeighbour(toNode, cost);
@@ -99,6 +95,11 @@ namespace Pathfinding
         public bool ContainsNode(GraphNode<T> node)
         {
             return nodeList.ContainsNode(node);
+        }
+
+        public bool ContainsValue(T value)
+        {
+            return nodeList.con
         }
 
         public void Clear()

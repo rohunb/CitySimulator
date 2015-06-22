@@ -4,10 +4,10 @@
   Created by Rohun Banerji on June 07, 2015.
   Copyright (c) 2015 Rohun Banerji. All rights reserved.
 */
-
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System;
+using System.Linq;
 
 namespace Pathfinding
 {
@@ -66,6 +66,11 @@ namespace Pathfinding
         public bool ContainsNodeWithID(int ID)
         {
             return nodeTable.ContainsKey(ID);
+        }
+        
+        public bool ContainsNodeWithValue(T value)
+        {
+            return nodeTable.Values.Any(value=>value)
         }
 
         public bool ContainsNode(GraphNode<T> node)

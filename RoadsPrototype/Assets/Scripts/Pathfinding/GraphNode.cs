@@ -14,7 +14,7 @@ namespace Pathfinding
 {
     public class GraphNode<T>
     {
-        public int ID { get; private set; }
+        public int ID { get; set; }
         public T Value { get; private set;}
 
         private List<GraphEdge<T>> connections = new List<GraphEdge<T>>();
@@ -29,36 +29,36 @@ namespace Pathfinding
             this.Value = value;
         }
 
-        /// <summary>
-        /// overloaded equality to test for IDs only - validation should happen in Graph to make sure duplicate IDs are not inserted
-        /// </summary>
-        /// <param name="lhs"></param>
-        /// <param name="rhs"></param>
-        /// <returns></returns>
-        public static bool operator == (GraphNode<T> lhs, GraphNode<T> rhs)
-        {
-            return lhs.ID == rhs.ID;
-        }
-        /// <summary>
-        /// overloaded equality to test for IDs only - validation should happen in Graph to make sure duplicate IDs are not inserted 
-        /// </summary>
-        /// <param name="lhs"></param>
-        /// <param name="rhs"></param>
-        /// <returns></returns>
-        public static bool operator !=(GraphNode<T> lhs, GraphNode<T> rhs)
-        {
-            return lhs.ID != rhs.ID;
-        }
+        ///// <summary>
+        ///// overloaded equality to test for IDs only - validation should happen in Graph to make sure duplicate IDs are not inserted
+        ///// </summary>
+        ///// <param name="lhs"></param>
+        ///// <param name="rhs"></param>
+        ///// <returns></returns>
+        //public static bool operator == (GraphNode<T> lhs, GraphNode<T> rhs)
+        //{
+        //    return lhs.ID == rhs.ID;
+        //}
+        ///// <summary>
+        ///// overloaded equality to test for IDs only - validation should happen in Graph to make sure duplicate IDs are not inserted 
+        ///// </summary>
+        ///// <param name="lhs"></param>
+        ///// <param name="rhs"></param>
+        ///// <returns></returns>
+        //public static bool operator !=(GraphNode<T> lhs, GraphNode<T> rhs)
+        //{
+        //    return lhs.ID != rhs.ID;
+        //}
 
-        public override bool Equals(object obj)
-        {
-            return base.Equals(obj);
-        }
+        //public override bool Equals(object obj)
+        //{
+        //    return base.Equals(obj);
+        //}
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
+        //public override int GetHashCode()
+        //{
+        //    return base.GetHashCode();
+        //}
         
         public void AddNeighbour(GraphNode<T> toNode, float cost)
         {

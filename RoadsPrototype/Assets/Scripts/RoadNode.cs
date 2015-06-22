@@ -10,9 +10,27 @@ using System.Collections.Generic;
 
 namespace RoadsPrototype
 {
-    public struct RoadNode
+    public class RoadNode : MonoBehaviour
     {
-        public Vector3 Position { get; private set; }
+        [SerializeField]
+        private int id;
+        public int ID
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        public Vector3 Position
+        {
+            get
+            {
+                return transform.position;
+            }
+            private set
+            {
+                transform.position = value;
+            }
+        }
 
         public RoadNode(Vector3 position)
         {
@@ -21,8 +39,17 @@ namespace RoadsPrototype
 
         public override string ToString()
         {
-            return "RoadNode: Position " + Position.ToString();
+            return "RoadNode: ID: " + ID + " Position " + Position.ToString();
         }
+
+#if UNITY_EDITOR
+        void OnDrawGizmos()
+        {
+            //Gizmos.DrawIcon(Position, "NodeIcon.tiff");
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(Position, .1f);
+        }
+#endif
     }
 }
 

@@ -8,70 +8,150 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using RoadsPrototype;
 using Pathfinding;
 
-[CustomEditor(typeof(RoadSystem))]
-public class RoadGraphEditor : Editor
+namespace RoadsEditor
 {
-    private Transform fromNodeTrans;
-    private Transform toNodeTrans;
-    private float cost;
-    private bool directed;
-    private int fromID = 0;
-    private int toID = 1;
-
-    private Graph<RoadNode> roadGraph;
-
-    public override void OnInspectorGUI()
+    [CustomEditor(typeof(RoadGraphDatabase))]
+    public class RoadGraphEditor : Editor
     {
-        DrawDefaultInspector();
+        private RoadNode fromNode;
+        private RoadNode toNode;
+        private float cost;
+        private bool directed;
+        private int fromID = 0;
+        private int toID = 1;
+        private bool autoGenIDs = true;
 
-        RoadSystem roadSystem = target as RoadSystem;
+        private Graph<RoadNode> roadGraph;
 
-        if (!roadSystem) return;
-
-        roadGraph = roadSystem.RoadGraph;
-
-        //Add to graph
-        EditorGUILayout.BeginVertical();
+        public override void OnInspectorGUI()
         {
-            EditorGUILayout.LabelField("Add connection to road graph");
-            fromNodeTrans = (Transform)EditorGUILayout.ObjectField("FromNode", fromNodeTrans, typeof(Transform), true);
-            fromID = EditorGUILayout.IntField("ID", fromID);
-            toNodeTrans = (Transform)EditorGUILayout.ObjectField("ToNode", toNodeTrans, typeof(Transform), true);
-            toID = EditorGUILayout.IntField("ID", toID);
-            cost = EditorGUILayout.FloatField("Cost", cost);
-            directed = EditorGUILayout.Toggle("Directed", directed);
-            if(GUILayout.Button("Add Connection"))
+            DrawDefaultInspector();
+
+            RoadGraphDatabase roadGraphDB = target as RoadGraphDatabase;
+
+            if (roadGraphDB == null) return;
+
+            roadGraph = roadGraphDB.RoadGraph;
+
+            if (roadGraph == null) return;
+
+            //Add to graph
+            EditorGUILayout.BeginVertical();
             {
-                var fromNode = new GraphNode<RoadNode>(fromID, new RoadNode(fromNodeTrans.position));
-                var toNode= new GraphNode<RoadNode>(toID, new RoadNode(toNodeTrans.position));
-                roadSystem.AddConnection(fromNode, toNode, cost, directed);
-                ++fromID;
-                ++toID;
+                EditorGUILayout.LabelField("Add connection to road graph");
+                //From Node
+                fromNode = (RoadNode)EditorGUILayout.ObjectField("FromNode", fromNode, typeof(RoadNode), true);
+                fromID = EditorGUILayout.IntField("ID", fromID);
+                //To Node
+                toNode = (RoadNode)EditorGUILayout.ObjectField("ToNode", toNode, typeof(RoadNode), true);
+                toID = EditorGUILayout.IntField("ID", toID);
+                autoGenIDs = EditorGUILayout.Toggle("Auto Generate IDs", autoGenIDs);
+                cost = EditorGUILayout.FloatField("Cost", cost);
+                directed = EditorGUILayout.Toggle("Directed", directed);
+
+                //Buttons
+                if (GUILayout.Button("Add Connection"))
+                {
+                    AddConnection(roadGraphDB);
+                }
+                if (GUILayout.Button("Clear"))
+                {
+                    Clear();
+                }
+                if (GUILayout.Button("Create New Road Node"))
+                {
+                    CreateNewRoadNode(roadGraphDB);
+                }
             }
+            EditorGUILayout.EndVertical();
         }
-        EditorGUILayout.EndVertical();
-    }
-
-    void OnSceneGUI()
-    {
-
-        Handles.DrawLine(Vector3.zero, Vector3.right * 10.0f);
-        Handles.ArrowCap(1, Vector3.zero, Quaternion.identity, 1.0f);
-
-        int counter = 0;
-        if (roadGraph==null) return;
-
-        foreach (GraphNode<RoadNode> node in roadGraph.NodeList)
+        private void AddConnection(RoadGraphDatabase roadGraphDB)
         {
-            foreach (var connection in node.Connections)
+            if (roadGraphDB.IDExists(fromID))
             {
-                //Handles.ArrowCap(counter++, )
+                Debug.LogError("From ID " + fromID + " exists");
+                return;
             }
+            if (roadGraphDB.IDExists(toID))
+            {
+                Debug.LogError("To ID " + toID + " exists");
+                return;
+            }
+            if(roadGraphDB.RoadGraph.ContainsNode)
+            fromNode.ID = fromID;
+            toNode.ID = toID;
+            var fromGraphNode = new GraphNode<RoadNode>(fromID, fromNode);
+            var toGraphNode = new GraphNode<RoadNode>(toID, toNode);
+            Debug.Log("Adding connection " + fromGraphNode + " to " + toGraphNode);
+            roadGraphDB.AddConnection(fromGraphNode, toGraphNode, cost, directed);
+            fromID = roadGraphDB.GenNextID();
+            toID = roadGraphDB.GenNextIDAfter(fromID+1);
+            Debug.Log("from ID " + fromID + " to ID " + toID);
+        }
+        private void Clear()
+        {
+            roadGraph.Clear();
+            fromID = 0;
+            toID = 1;
+            fromNode = null;
+            toNode = null;
+        }
+        private void CreateNewRoadNode(RoadGraphDatabase roadGraphDB)
+        {
+            var newRoadNode = (RoadNode)(Instantiate(roadGraphDB.RoadNodePrefab));
+            RoadNode[] roadNodes = FindObjectsOfType<RoadNode>();
+            int ID = 0;
+            while (roadNodes.Any(roadNode => roadNode.ID == ID))
+            {
+                ++ID;
+            }
+            newRoadNode.ID = ID;
+            newRoadNode.name = "RoadNode " + ID;
+            Selection.activeGameObject = newRoadNode.gameObject;
+            EditorGUIUtility.PingObject(Selection.activeGameObject);
+        }
+        void OnEnable()
+        {
+            SceneView.onSceneGUIDelegate += OnSceneGUI;
+
+        }
+        void OnDisable()
+        {
+            SceneView.onSceneGUIDelegate -= OnSceneGUI;
+        }
+        void OnSceneGUI(SceneView sceneView)
+        {
+            int counter = 0;
+            if (roadGraph == null) return;
+
+            foreach (GraphNode<RoadNode> node in roadGraph.NodeList)
+            {
+                foreach (var connection in node.Connections)
+                {
+                    Vector3 fromNodePos = connection.FromNode.Value.Position;
+                    Vector3 toNodePos = connection.ToNode.Value.Position;
+                    //float dist = Vector3.Distance(fromNodePos, toNodePos);
+                    Quaternion arrowRotation = Quaternion.LookRotation(toNodePos - fromNodePos);
+                    //Handles.ArrowCap(counter++, connection.FromNode.Value.Position, arrowRotation, dist);
+                    Handles.color = Color.red;
+                    Handles.DrawLine(fromNodePos, toNodePos);
+                    //Handles.ArrowCap(counter++, toNodePos, arrowRotation, 1.0f);
+                    Handles.color = Color.blue;
+                    Handles.ConeCap(counter++, toNodePos, arrowRotation, .1f);
+                }
+            }
+            HandleUtility.Repaint();
+        }
+        [MenuItem("Custom/RoadGraph/Select Database #&r")]
+        private static void SelectRoadGraphDB()
+        {
+            Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Databases/RoadGraphDatabase.asset");
+            EditorGUIUtility.PingObject(Selection.activeObject);
         }
     }
-
 }
 

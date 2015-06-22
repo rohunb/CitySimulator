@@ -75,6 +75,15 @@ namespace RoadsPrototype
         //GUI interface
         public void AddConnection(GraphNode<RoadNode> fromNode, GraphNode<RoadNode> toNode, float cost, bool directed)
         {
+            if(fromNode.ID != fromNode.Value.ID)
+            {
+                fromNode.ID = fromNode.Value.ID;
+            }
+            if(toNode.ID != toNode.Value.ID)
+            {
+                toNode.ID = toNode.Value.ID;
+            }
+
             if(directed)
             {
                 roadGraph.AddAndConnectDirected(fromNode, toNode, cost);

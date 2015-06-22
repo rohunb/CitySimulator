@@ -55,6 +55,7 @@
      <Compile Include="Assets\Scripts\Pathfinding\PriorityQueue.cs" />
      <Compile Include="Assets\Scripts\RoadNode.cs" />
      <Compile Include="Assets\Scripts\RoadSystem.cs" />
+     <Compile Include="Assets\Scripts\ScriptableObjects\RoadGraphDatabase.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
