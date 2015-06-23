@@ -49,19 +49,19 @@ namespace Pathfinding
         /// Add a new node
         /// </summary>
         /// <param name="node"></param>
-        public void Add(GraphNode<T> node)
+        public void Add(int ID, GraphNode<T> node)
         {
-            nodeTable.Add(node.ID, node);
+            nodeTable.Add(ID, node);
         }
 
         /// <summary>
-        /// Remove a node
+        /// Remove a node - slower than RemoveByID
         /// </summary>
         /// <param name="node"></param>
-        public bool Remove(GraphNode<T> node)
-        {
-            return nodeTable.Remove(node.ID);
-        }
+        //public bool RemoveNode(GraphNode<T> node)
+        //{
+        //    return nodeTable.Remove(node.ID);
+        //}
 
         public bool ContainsNodeWithID(int ID)
         {
@@ -70,9 +70,9 @@ namespace Pathfinding
         
         public bool ContainsNodeWithValue(T value)
         {
-            return nodeTable.Values.Any(value=>value)
+            return nodeTable.Values.Any(node => node.Value.Equals(value));
         }
-
+        
         public bool ContainsNode(GraphNode<T> node)
         {
             return nodeTable.ContainsValue(node);
@@ -159,6 +159,4 @@ namespace Pathfinding
         //}
 
     }
-
-    
 }

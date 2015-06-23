@@ -32,8 +32,9 @@ namespace RoadsPrototype
             }
         }
 
-        public RoadNode(Vector3 position)
+        public RoadNode(int ID, Vector3 position)
         {
+            this.ID = ID;
             this.Position = position;
         }
 
@@ -45,7 +46,6 @@ namespace RoadsPrototype
 #if UNITY_EDITOR
         void OnDrawGizmos()
         {
-            //Gizmos.DrawIcon(Position, "NodeIcon.tiff");
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(Position, .1f);
         }

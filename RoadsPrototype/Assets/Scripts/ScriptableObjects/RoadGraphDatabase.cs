@@ -40,24 +40,15 @@ namespace RoadsEditor
         }
 
         //GUI interface
-        public void AddConnection(GraphNode<RoadNode> fromNode, GraphNode<RoadNode> toNode, float cost, bool directed)
+        public void AddConnection(RoadNode fromNode, RoadNode toNode, float cost, bool directed)
         {
             Assert.IsNotNull(fromNode);
             Assert.IsNotNull(toNode);
             Assert.IsNotNull(roadGraph);
-            Assert.IsFalse(roadGraph.ContainsNode(fromNode) && roadGraph.ContainsNode(toNode));
-            if (roadGraph.ContainsNode(fromNode) && roadGraph.ContainsNode(toNode))
+            
+            if (roadGraph.ContainsValue(fromNode) && roadGraph.ContainsValue(toNode))
             {
                 return;
-            }
-
-            if (fromNode.ID != fromNode.Value.ID)
-            {
-                fromNode.ID = fromNode.Value.ID;
-            }
-            if (toNode.ID != toNode.Value.ID)
-            {
-                toNode.ID = toNode.Value.ID;
             }
 
             if (directed)
@@ -70,40 +61,18 @@ namespace RoadsEditor
             }
         }
 
+        /// <summary>
+        /// Converts the graph to a format that Unity can serialize (List)
+        /// </summary>
         public void Save()
         {
-
+            
         }
         
         public void Clear()
         {
             Assert.IsNotNull(roadGraph);
             roadGraph.Clear();
-        }
-
-        public int GenNextID()
-        {
-            return GenNextIDAfter(0);
-        }
-
-        public int GenNextIDAfter(int ID)
-        {
-            while (IDExists(ID))
-            {
-                ++ID;
-            }
-            return ID;
-        }
-
-        public bool IDExists(int ID)
-        {
-            Assert.IsNotNull(roadGraph);
-            return roadGraph.NodeList.ContainsNodeWithID(ID);
-        }
-
-        private void Serialize()
-        {
-
         }
     }
 }

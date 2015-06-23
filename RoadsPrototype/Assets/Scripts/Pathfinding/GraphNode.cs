@@ -14,7 +14,7 @@ namespace Pathfinding
 {
     public class GraphNode<T>
     {
-        public int ID { get; set; }
+        //public int ID { get; set; }
         public T Value { get; private set;}
 
         private List<GraphEdge<T>> connections = new List<GraphEdge<T>>();
@@ -23,9 +23,13 @@ namespace Pathfinding
             get { return connections.AsReadOnly(); }
         }
 
-        public GraphNode(int ID, T value)
+        //public GraphNode(int ID, T value)
+        //{
+        //    this.ID = ID;
+        //    this.Value = value;
+        //}
+        public GraphNode(T value)
         {
-            this.ID = ID;
             this.Value = value;
         }
 
@@ -87,7 +91,7 @@ namespace Pathfinding
 
         public override string ToString()
         {
-            return "GraphNode: ID " + ID + " " + Value.ToString();
+            return "GraphNode: " + Value.ToString();
         }
     }
 }
