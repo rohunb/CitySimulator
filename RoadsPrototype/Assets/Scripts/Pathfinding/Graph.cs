@@ -71,28 +71,29 @@ namespace Pathfinding
             Assert.IsFalse(fromNode.Value.Equals(toNode.Value));
             AddNode(fromNode);
             AddNode(toNode);
-            fromNode.AddNeighbour(toNode, cost);
+            ConnectDirected(fromNode, toNode, cost);
         }
 
         public void AddAndConnect(GraphNode<T> node1, GraphNode<T> node2, float cost)
         {
             AddAndConnectDirected(node1, node2, cost);
-            node2.AddNeighbour(node1, cost);
+            ConnectDirected(node2, node1, cost);
         }
 
-        public void AddAndConnectDirected(T value1, T value2, float cost)
+        public void AddAndConnectDirected(T fromValue, T toValue, float cost)
         {
-            GraphNode<T> node1 = AddNode(value1);
-            GraphNode<T> node2 = AddNode(value2);
-            node1.AddNeighbour(node2, cost);
+            GraphNode<T> fromNode = AddNode(fromValue);
+            GraphNode<T> toNode = AddNode(toValue);
+            ConnectDirected(fromNode, toNode, cost);
         }
 
         public void AddAndConnect(T value1, T value2, float cost)
         {
             GraphNode<T> node1 = AddNode(value1);
             GraphNode<T> node2 = AddNode(value2);
-            node1.AddNeighbour(node2, cost);
-            node2.AddNeighbour(node1, cost);
+            //node1.AddNeighbour(node2, cost);
+            //node2.AddNeighbour(node1, cost);
+            ConnectNodes(node1, node2, cost);
         }
 
         public void AddNodesInEdge(GraphEdge<T> edge)
@@ -100,6 +101,27 @@ namespace Pathfinding
             AddAndConnectDirected(edge.FromNode, edge.ToNode, edge.Cost);
         }
 
+        /// <summary>
+        /// Connects nodes that ALREADY EXIST IN GRAPH
+        /// </summary>
+        public void ConnectNodes(GraphNode<T> fromNode, GraphNode<T> toNode, float cost)
+        {
+            ConnectDirected(fromNode, toNode, cost);
+            ConnectDirected(toNode, fromNode, cost);
+        }
+
+        /// <summary>
+        /// Connects nodes that ALREADY EXIST IN GRAPH
+        /// </summary>
+        /// <param name="fromNode"></param>
+        /// <param name="toNode"></param>
+        /// <param name="cost"></param>
+        public void ConnectDirected(GraphNode<T> fromNode, GraphNode<T> toNode, float cost)
+        {
+            Assert.IsTrue(ContainsNode(fromNode));
+            Assert.IsTrue(ContainsNode(toNode));
+            fromNode.AddNeighbour(toNode, cost);
+        }
         /// <summary>
         /// Potentially expensive operation since it will also search and remove connections for nodes connected to the node. After which the graph will search through and purge orphan nodes.
         /// </summary>
@@ -121,10 +143,12 @@ namespace Pathfinding
         }
 
         //Search Graph
-        //public GraphNode<T> FindNodeByID(int ID)
-        //{
-        //    return nodeList[ID];
-        //}
+        public GraphNode<T> GetNodeByValue(T value)
+        {
+            return ContainsValue(value)
+                ? nodeList.Single(node => node.Value.Equals(value))
+                : null;
+        }
 
         public bool ContainsNode(GraphNode<T> node)
         {
@@ -158,6 +182,12 @@ namespace Pathfinding
             {
                 nodeList.Remove(node);
             }
+        }
+
+        //Interface for NodeList
+        public int NodeCount
+        {
+            get { return NodeList.Count; }
         }
 
         // Enables foreach

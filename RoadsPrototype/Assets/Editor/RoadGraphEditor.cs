@@ -60,46 +60,30 @@ namespace RoadsEditor
                 }
                 if (GUILayout.Button("Clear"))
                 {
-                    Clear();
+                    Clear(roadGraphDB);
                 }
                 if (GUILayout.Button("Create New Road Node"))
                 {
                     CreateNewRoadNode(roadGraphDB);
+                }
+                if(GUILayout.Button("Display"))
+                {
+                    Display();
                 }
             }
             EditorGUILayout.EndVertical();
         }
         private void AddConnection(RoadGraphDatabase roadGraphDB)
         {
-            //if (roadGraphDB.IDExists(fromID))
-            //{
-            //    Debug.LogError("From ID " + fromID + " exists");
-            //    return;
-            //}
-            //if (roadGraphDB.IDExists(toID))
-            //{
-            //    Debug.LogError("To ID " + toID + " exists");
-            //    return;
-            //}
-            
-            //fromNode.ID = fromID;
-            //toNode.ID = toID;
-            //var fromGraphNode = new GraphNode<RoadNode>(fromNode);
-            //var toGraphNode = new GraphNode<RoadNode>(toNode);
-            
             roadGraphDB.AddConnection(fromNode, toNode, cost, directed);
-            //fromID = roadGraphDB.GenNextID();
-            //toID = roadGraphDB.GenNextIDAfter(fromID+1);
-            //Debug.Log("from ID " + fromID + " to ID " + toID);
             EditorUtility.SetDirty(roadGraphDB);
         }
-        private void Clear()
+        private void Clear(RoadGraphDatabase roadGraphDB)
         {
             roadGraph.Clear();
-            //fromID = 0;
-            //toID = 1;
             fromNode = null;
             toNode = null;
+            EditorUtility.SetDirty(roadGraphDB);
         }
         private void CreateNewRoadNode(RoadGraphDatabase roadGraphDB)
         {
@@ -115,10 +99,20 @@ namespace RoadsEditor
             Selection.activeGameObject = newRoadNode.gameObject;
             EditorGUIUtility.PingObject(Selection.activeGameObject);
         }
+        void Display()
+        {
+            Debug.LogWarning("Road Graph:");
+            foreach (GraphNode<RoadNode> node in roadGraph)
+            {
+                foreach (var edge in node.Connections)
+                {
+                    Debug.Log("From " + edge.FromNode + " To " + edge.ToNode + " Cost " + edge.Cost);
+                }
+            }
+        }
         void OnEnable()
         {
             SceneView.onSceneGUIDelegate += OnSceneGUI;
-
         }
         void OnDisable()
         {
@@ -126,10 +120,10 @@ namespace RoadsEditor
         }
         void OnSceneGUI(SceneView sceneView)
         {
-            int counter = 0;
             if (roadGraph == null) return;
+            int counter = 0;
 
-            foreach (GraphNode<RoadNode> node in roadGraph.NodeList)
+            foreach (GraphNode<RoadNode> node in roadGraph)
             {
                 foreach (var connection in node.Connections)
                 {

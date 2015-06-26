@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Name: RoadGraphDatabase
   m_EditorClassIdentifier: 
   roadNodePrefab: {fileID: 11442916, guid: 0f73c4e8ea6d58749baaec1b0920b3f4, type: 2}
+  sz_roadNodeList:
+  - RoadNode: {fileID: 0}
+    Connections: []

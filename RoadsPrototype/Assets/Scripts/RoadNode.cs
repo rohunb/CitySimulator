@@ -8,8 +8,8 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RoadsPrototype
-{
+//namespace RoadsPrototype
+//{
     public class RoadNode : MonoBehaviour
     {
         [SerializeField]
@@ -51,5 +51,5 @@ namespace RoadsPrototype
         }
 #endif
     }
-}
+//}
 
