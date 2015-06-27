@@ -4,12 +4,14 @@
   Created by Rohun Banerji on June 15, 2015.
 */
 
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
+using UnityEngine;
+using UnityEngine.Assertions;
 
-//namespace RoadsPrototype
-//{
+namespace RoadsPrototype
+{
     public class RoadNode : MonoBehaviour
     {
         [SerializeField]
@@ -24,18 +26,16 @@ using System.Collections.Generic;
         {
             get
             {
+                Assert.IsNotNull(gameObject);
+                Assert.IsNotNull(transform);
                 return transform.position;
             }
             private set
             {
+                Assert.IsNotNull(gameObject);
+                Assert.IsNotNull(transform);
                 transform.position = value;
             }
-        }
-
-        public RoadNode(int ID, Vector3 position)
-        {
-            this.ID = ID;
-            this.Position = position;
         }
 
         public override string ToString()
@@ -51,5 +51,5 @@ using System.Collections.Generic;
         }
 #endif
     }
-//}
+}
 

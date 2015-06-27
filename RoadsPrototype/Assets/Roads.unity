@@ -375,6 +375,65 @@ Transform:
   m_Children: []
   m_Father: {fileID: 264153538}
   m_RootOrder: 4
+--- !u!1 &589988428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 589988430}
+  - 114: {fileID: 589988429}
+  m_Layer: 0
+  m_Name: RoadGraphDB
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &589988429
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 589988428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc13e369413abe4a908ce086be7b34e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roadNodePrefab: {fileID: 0}
+  sz_roadNodeList:
+  - RoadNode: {fileID: 42551280}
+    Connections:
+    - FromNode: {fileID: 42551280}
+      ToNode: {fileID: 1719131477}
+      Cost: 0
+    - FromNode: {fileID: 42551280}
+      ToNode: {fileID: 100124652}
+      Cost: 0
+  - RoadNode: {fileID: 1719131477}
+    Connections:
+    - FromNode: {fileID: 1719131477}
+      ToNode: {fileID: 42551280}
+      Cost: 0
+  - RoadNode: {fileID: 100124652}
+    Connections:
+    - FromNode: {fileID: 100124652}
+      ToNode: {fileID: 42551280}
+      Cost: 0
+--- !u!4 &589988430
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 589988428}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: .156966329, y: 1.05440164, z: -1.09995699}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
 --- !u!1 &751995815
 GameObject:
   m_ObjectHideFlags: 0

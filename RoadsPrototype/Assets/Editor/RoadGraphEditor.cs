@@ -5,6 +5,7 @@
 */
 
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,19 +26,19 @@ namespace RoadsEditor
         //private int toID = 1;
         //private bool autoGenIDs = true;
 
-        private Graph<RoadNode> roadGraph;
+        //private Graph<RoadNode> roadGraph;
 
         public override void OnInspectorGUI()
         {
             DrawDefaultInspector();
 
             RoadGraphDatabase roadGraphDB = target as RoadGraphDatabase;
-
+            Assert.IsNotNull(roadGraphDB);
             if (roadGraphDB == null) return;
 
-            roadGraph = roadGraphDB.RoadGraph;
-
-            if (roadGraph == null) return;
+            //roadGraph = roadGraphDB.RoadGraph;
+            //roadGraphDB.ad
+            //if (roadGraph == null) return;
 
             //Add to graph
             EditorGUILayout.BeginVertical();
@@ -60,11 +61,11 @@ namespace RoadsEditor
                 }
                 if (GUILayout.Button("Clear"))
                 {
-                    Clear(roadGraphDB);
+                   Clear(roadGraphDB);
                 }
                 if (GUILayout.Button("Create New Road Node"))
                 {
-                    CreateNewRoadNode(roadGraphDB);
+                   CreateNewRoadNode(roadGraphDB);
                 }
                 if(GUILayout.Button("Display"))
                 {
@@ -80,7 +81,7 @@ namespace RoadsEditor
         }
         private void Clear(RoadGraphDatabase roadGraphDB)
         {
-            roadGraph.Clear();
+            roadGraphDB.Clear();
             fromNode = null;
             toNode = null;
             EditorUtility.SetDirty(roadGraphDB);
@@ -102,27 +103,32 @@ namespace RoadsEditor
         void Display()
         {
             Debug.LogWarning("Road Graph:");
-            foreach (GraphNode<RoadNode> node in roadGraph)
-            {
-                foreach (var edge in node.Connections)
-                {
-                    Debug.Log("From " + edge.FromNode + " To " + edge.ToNode + " Cost " + edge.Cost);
-                }
-            }
+            //foreach (GraphNode<RoadNode> node in roadGraph)
+            //{
+            //    foreach (var edge in node.Connections)
+            //    {
+            //        Debug.Log("From " + edge.FromNode + " To " + edge.ToNode + " Cost " + edge.Cost);
+            //    }
+            //}
         }
         void OnEnable()
         {
-            SceneView.onSceneGUIDelegate += OnSceneGUI;
+            var roadGraphDB = target as RoadGraphDatabase;
+            Assert.IsNotNull(roadGraphDB);
+            roadGraphDB.Load();
         }
-        void OnDisable()
+        //void OnDisable()
+        //{
+        //    SceneView.onSceneGUIDelegate -= OnSceneGUI;
+        //}
+        
+        void OnSceneGUI()
         {
-            SceneView.onSceneGUIDelegate -= OnSceneGUI;
-        }
-        void OnSceneGUI(SceneView sceneView)
-        {
-            if (roadGraph == null) return;
-            int counter = 0;
+            //if (roadGraph == null) return;
+            var roadGraph = ((RoadGraphDatabase)target).RoadGraph;
+            if (roadGraph== null) return;
 
+            int counter = 0;
             foreach (GraphNode<RoadNode> node in roadGraph)
             {
                 foreach (var connection in node.Connections)
@@ -136,11 +142,12 @@ namespace RoadsEditor
                     Handles.DrawLine(fromNodePos, toNodePos);
                     Handles.color = Color.blue;
                     //Draws an arrow near the toNode
-                    Handles.ConeCap(counter++, toNodePos - direction.normalized*.15f, arrowRotation, .1f);
+                    Handles.ConeCap(counter++, toNodePos - direction.normalized * .15f, arrowRotation, .1f);
                 }
             }
             HandleUtility.Repaint();
         }
+
         [MenuItem("Custom/RoadGraph/Select Database #&r")]
         private static void SelectRoadGraphDB()
         {

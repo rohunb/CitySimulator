@@ -15,8 +15,8 @@ using RoadsPrototype;
 
 namespace RoadsEditor
 {
-    [CreateAssetMenuAttribute]
-    public class RoadGraphDatabase : ScriptableObject
+    //[CreateAssetMenuAttribute]
+    public class RoadGraphDatabase : MonoBehaviour
     {
         [SerializeField]
         private RoadNode roadNodePrefab;
@@ -42,6 +42,11 @@ namespace RoadsEditor
         {
             Assert.IsNotNull(fromNode);
             Assert.IsNotNull(toNode);
+            if(roadGraph == null)
+            {
+                roadGraph = new Graph<RoadNode>();
+                Debug.Log("New Graph");
+            }
             Assert.IsNotNull(roadGraph);
 
             if (roadGraph.ContainsValue(fromNode) && roadGraph.ContainsValue(toNode))
@@ -143,6 +148,8 @@ namespace RoadsEditor
         public void Clear()
         {
             Assert.IsNotNull(roadGraph);
+            Assert.IsNotNull(sz_roadNodeList);
+            Debug.Log("Clear");
             roadGraph.Clear();
             sz_roadNodeList.Clear();
         }
