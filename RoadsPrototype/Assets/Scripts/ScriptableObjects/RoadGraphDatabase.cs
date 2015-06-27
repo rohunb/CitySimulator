@@ -40,7 +40,7 @@ namespace RoadsEditor
         private AStarCalculator<RoadNode> astarCalc;
 
         //Run time queries
-        IEnumerable<RoadNode> FindPath(RoadNode startNode, RoadNode endNode)
+        public IEnumerable<RoadNode> FindPath(RoadNode startNode, RoadNode endNode)
         {
             Assert.IsTrue(roadGraph.ContainsValue(startNode));
             Assert.IsTrue(roadGraph.ContainsValue(endNode));
@@ -61,12 +61,11 @@ namespace RoadsEditor
                 roadGraph = new Graph<RoadNode>();
                 Debug.Log("New Graph");
             }
-            Assert.IsNotNull(roadGraph);
 
-            if (roadGraph.ContainsValue(fromNode) && roadGraph.ContainsValue(toNode))
-            {
-                return;
-            }
+            //if (roadGraph.ContainsValue(fromNode) && roadGraph.ContainsValue(toNode))
+            //{
+            //    return;
+            //}
 
             if (directed)
             {

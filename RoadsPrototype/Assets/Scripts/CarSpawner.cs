@@ -27,6 +27,10 @@ namespace RoadsPrototype
         {
             Debug.Log("Spawn Car");
             var carClone = (TrafficCar)(Instantiate(carPrefab));
+            carClone.transform.position = startNode.Position;
+            //carClone.DriveTo(destinationNode.Position);
+            IEnumerable<RoadNode> path = roadGraphDB.FindPath(startNode, destinationNode);
+            carClone.DriveAlongPath(path);
         }
 
         private void Awake()
