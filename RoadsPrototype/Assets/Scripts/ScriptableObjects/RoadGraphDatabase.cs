@@ -37,6 +37,20 @@ namespace RoadsEditor
             get { return roadGraph; }
         }
 
+        private AStarCalculator<RoadNode> astarCalc;
+
+        //Run time queries
+        IEnumerable<RoadNode> FindPath(RoadNode startNode, RoadNode endNode)
+        {
+            Assert.IsTrue(roadGraph.ContainsValue(startNode));
+            Assert.IsTrue(roadGraph.ContainsValue(endNode));
+            GraphNode<RoadNode> startGraphNode = roadGraph.GetNodeByValue(startNode);
+            GraphNode<RoadNode> endGraphNode = roadGraph.GetNodeByValue(endNode);
+            List<GraphNode<RoadNode>> graphNodePath = astarCalc.CalculatePath(startGraphNode, endGraphNode);
+            Assert.IsTrue(graphNodePath.Count > 0);
+            return graphNodePath.Select(graphNode => graphNode.Value);
+        }
+
         //GUI interface
         public void AddConnection(RoadNode fromNode, RoadNode toNode, float cost, bool directed)
         {
@@ -108,7 +122,7 @@ namespace RoadsEditor
         /// </summary>
         public void Load()
         {
-            Debug.Log("Loading");
+            //Debug.Log("Loading");
             if (roadGraph == null)
             {
                 roadGraph = new Graph<RoadNode>();
@@ -156,19 +170,24 @@ namespace RoadsEditor
 
         private void OnDisable()
         {
-            Debug.Log("On Disable");
+            //Debug.Log("On Disable");
             Save();
         }
         private void OnEnable()
         {
-            Debug.Log("On Enable");
+            //Debug.Log("On Enable");
             Load();
         }
 
-        //private GraphNode<RoadNode> Deserialze(SerializedRoadNode sz_roadNode)
-        //{
-        //    return new GraphNode<RoadNode>(sz_roadNode.RoadNode);
-        //}
+        private void Start()
+        {
+            Func<GraphNode<RoadNode>, GraphNode<RoadNode>, float> heuristicCalc 
+                = (node1, node2) => 
+                {
+                  return Vector3.Distance(node1.Value.Position, node2.Value.Position)  ;
+                };
+            astarCalc = new AStarCalculator<RoadNode>(roadGraph, heuristicCalc);
+        }
     }
 
     [Serializable]

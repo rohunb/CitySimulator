@@ -46,7 +46,12 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\CarSpawner.cs" />
      <Compile Include="Assets\Scripts\Extensions\ExtensionMethods.cs" />
+     <Compile Include="Assets\Scripts\Extensions\InputManager.Keyboard.cs" />
+     <Compile Include="Assets\Scripts\Extensions\InputManager.Mouse.cs" />
+     <Compile Include="Assets\Scripts\Extensions\InputManager.cs" />
+     <Compile Include="Assets\Scripts\Extensions\Singleton.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\AStarCalculator.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\Graph.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\GraphEdge.cs" />
@@ -57,6 +62,11 @@
      <Compile Include="Assets\Scripts\RoadSystem.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\RoadGraphDatabase.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\ScriptableObjActivator.cs" />
+     <Compile Include="Assets\Scripts\TrafficCar.cs" />
+     <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\DiffuseReflectiveShader.shader" />
+     <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpecTransp.shader" />
+     <None Include="Assets\Standard Assets\Vehicles\Car\Shaders\ReflectiveDiffuseSpec.shader" />
+     <None Include="Assets\Standard Assets\Vehicles\Car\CarGuidelines.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

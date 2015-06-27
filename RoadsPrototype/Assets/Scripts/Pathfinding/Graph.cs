@@ -59,7 +59,7 @@ namespace Pathfinding
             Assert.IsFalse(nodeList.Contains(node));
             if (!nodeList.Contains(node))
             {
-                Debug.Log("Adding node " + node);
+                //Debug.Log("Adding node " + node);
                 nodeList.Add(node);
                 Assert.IsTrue(nodeList.Contains(node));
             }

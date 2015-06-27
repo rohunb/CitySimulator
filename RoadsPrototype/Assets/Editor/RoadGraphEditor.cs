@@ -88,8 +88,13 @@ namespace RoadsEditor
         }
         private void CreateNewRoadNode(RoadGraphDatabase roadGraphDB)
         {
+            Assert.IsNotNull(roadGraphDB);
             var newRoadNode = (RoadNode)(Instantiate(roadGraphDB.RoadNodePrefab));
+            Assert.IsNotNull(newRoadNode);
+            newRoadNode.transform.SetParent(roadGraphDB.transform, true);
             RoadNode[] roadNodes = FindObjectsOfType<RoadNode>();
+            Assert.IsNotNull(roadNodes);
+            Assert.IsTrue(roadNodes.Length > 0);
             int ID = 0;
             while (roadNodes.Any(roadNode => roadNode.ID == ID))
             {
@@ -151,8 +156,10 @@ namespace RoadsEditor
         [MenuItem("Custom/RoadGraph/Select Database #&r")]
         private static void SelectRoadGraphDB()
         {
-            Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Databases/RoadGraphDatabase.asset");
-            EditorGUIUtility.PingObject(Selection.activeObject);
+            //Selection.activeObject = AssetDatabase.LoadMainAssetAtPath("Assets/Databases/RoadGraphDatabase.asset");
+            //EditorGUIUtility.PingObject(Selection.activeObject);
+            Selection.activeGameObject = FindObjectOfType<RoadGraphDatabase>().gameObject;
+            EditorGUIUtility.PingObject(Selection.activeGameObject);
         }
     }
 }

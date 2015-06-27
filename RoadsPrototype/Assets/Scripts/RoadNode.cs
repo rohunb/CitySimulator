@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.Assertions;
+using UnityEngine.UI;
 
 namespace RoadsPrototype
 {
@@ -19,8 +20,14 @@ namespace RoadsPrototype
         public int ID
         {
             get { return id; }
-            set { id = value; }
+            set
+            {
+                id = value;
+                uiText.text = id.ToString();
+            }
         }
+        [SerializeField]
+        private Text uiText;
 
         public Vector3 Position
         {
