@@ -52,12 +52,14 @@
      <Compile Include="Assets\Scripts\Extensions\InputManager.Mouse.cs" />
      <Compile Include="Assets\Scripts\Extensions\InputManager.cs" />
      <Compile Include="Assets\Scripts\Extensions\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Ground.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\AStarCalculator.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\Graph.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\GraphEdge.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\GraphNode.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\GraphNodeList.cs" />
      <Compile Include="Assets\Scripts\Pathfinding\PriorityQueue.cs" />
+     <Compile Include="Assets\Scripts\RoadCreator.cs" />
      <Compile Include="Assets\Scripts\RoadNode.cs" />
      <Compile Include="Assets\Scripts\RoadSystem.cs" />
      <Compile Include="Assets\Scripts\ScriptableObjects\RoadGraphDatabase.cs" />
