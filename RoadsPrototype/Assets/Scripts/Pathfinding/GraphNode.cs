@@ -30,7 +30,7 @@ namespace Pathfinding
         //}
         public GraphNode(T value)
         {
-            this.Value = value;
+            Value = value;
         }
 
         ///// <summary>

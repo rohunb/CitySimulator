@@ -6,6 +6,7 @@
 */
 
 using UnityEngine;
+using UnityEngine.Assertions;
 using System.Collections.Generic;
 
 //this class adds extended functionality to various built in classes like Transform, GameObject, etc.
@@ -237,18 +238,17 @@ public static class ExtensionMethods
 
     #region GameObject Extensions
     /// <summary>
-    /// Defensive GetComponent that generates an error if not found - only works with Monobehaviour scripts
+    /// Defensive GetComponent that generates an error if not found
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public static T GetSafeComponent<T>(this GameObject obj) where T : MonoBehaviour
+    public static T GetSafeComponent<T>(this GameObject obj) where T : Component
     {
         T component = obj.GetComponent<T>();
-        if (!component)
-        {
-            Debug.LogError("Could not find " + typeof(T) + " component", obj);
-        }
+
+        Assert.IsNotNull(component, "Could not find " + typeof(T) + " component");
+
         return component;
     }
     public static T GetComponentInParent<T> (this GameObject go) where T: Component

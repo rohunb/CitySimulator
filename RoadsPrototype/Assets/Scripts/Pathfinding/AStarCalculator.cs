@@ -34,13 +34,11 @@ namespace Pathfinding
             this.heuristicCalculator = heuristicCalculator;
         }
 
-        //Main A-Star Method to calculate path
         /// <summary>
         /// Returns a list of edges leading from the start to end. Returns an empty list if no path is found.
         /// </summary>
         public List<GraphNode<T>> CalculatePath(GraphNode<T> startNode, GraphNode<T> destinationNode)
         {
-            //Validation
             Assert.IsNotNull(graph);
             Assert.IsNotNull(startNode);
             Assert.IsNotNull(destinationNode);

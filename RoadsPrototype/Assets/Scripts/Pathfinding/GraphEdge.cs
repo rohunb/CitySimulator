@@ -24,9 +24,9 @@ namespace Pathfinding
 
         public GraphEdge(GraphNode<T> fromNode, GraphNode<T> toNode, float cost)
         {
-            this.FromNode = fromNode;
-            this.ToNode = toNode;
-            this.Cost = cost;
+            FromNode = fromNode;
+            ToNode = toNode;
+            Cost = cost;
         }
 
         public bool IsValidEdge()
